@@ -1,0 +1,6 @@
+c15bd8d|test+style: testes de regressao da Sprint 1 e flake8 limpo (D-10)
+55bf917|fix(scripts): remove senha fixa e protege script destrutivo (D-09)
+9634b5b|fix(auth): normaliza e-mail no login; cookies de sessao Lax/Secure em producao (D-02, D-04)
+ca80398|fix(seguranca): atualizar status somente via POST com CSRF e feedback de erro (D-01, D-03)
+6e617a3|fix(deps): requirements em UTF-8, versoes fixadas, Flask-Migrate e Werkzeug 3.1.9 (D-07, D-08)
+cab1253|fix(repo): remove .env, venv, .idea e __pycache__ do versionamento; adiciona .env.example (D-06)

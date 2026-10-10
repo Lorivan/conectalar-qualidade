@@ -1,0 +1,11 @@
+app/services/validation_service.py
+    F 20:0 validar_usuario_form - B (8)
+app/usuarios/routes.py
+    F 15:0 cadastro - B (7)
+app/dashboard/routes.py
+    F 16:0 dashboard - B (6)
+app/utils/csrf.py
+    F 17:0 validate_csrf_for_request - B (6)
+
+4 blocks (classes, functions, methods) analyzed.
+Average complexity: B (6.75)

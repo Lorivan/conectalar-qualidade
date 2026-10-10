@@ -1,0 +1,22 @@
+...............................                                          [100%]
+31 passed in 17.08s
+app/__init__.py                         54      6    89%
+app/auth/__init__.py                     1      0   100%
+app/auth/routes.py                      26      5    81%
+app/dashboard/__init__.py                1      0   100%
+app/dashboard/routes.py                 30      1    97%
+app/models.py                           19      0   100%
+app/ocorrencias/__init__.py              1      0   100%
+app/ocorrencias/repository.py           13      1    92%
+app/ocorrencias/routes.py               37      8    78%
+app/ocorrencias/service.py              29      3    90%
+app/services/__init__.py                 0      0   100%
+app/services/auth_service.py            13      2    85%
+app/services/validation_service.py      36      1    97%
+app/usuarios/__init__.py                 1      0   100%
+app/usuarios/routes.py                  40     11    72%
+app/utils/auth.py                       18      0   100%
+app/utils/csrf.py                       17      2    88%
+app/utils/datetime_utils.py             11      1    91%
+--------------------------------------------------------
+TOTAL                                  347     41    88%

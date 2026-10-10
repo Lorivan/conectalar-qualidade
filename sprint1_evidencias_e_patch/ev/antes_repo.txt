@@ -1,0 +1,4 @@
+68
+.env
+requirements.txt: Unicode text, UTF-16, little-endian text, with CRLF line terminators
+0000000 377 376   b  \0

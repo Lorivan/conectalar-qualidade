@@ -1,0 +1,5 @@
+D-01 GET sem CSRF -> HTTP 405 | status no banco: Pendente
+D-02 login com e-mail em caixa diferente -> HTTP 302 (esperado 302)
+D-03 status invalido -> mensagem de erro exibida? False
+D-04 SESSION_COOKIE_SECURE = False | SAMESITE = Lax | HTTPONLY = True
+D-05 30 tentativas erradas seguidas -> codigos distintos: [200] (sem bloqueio)

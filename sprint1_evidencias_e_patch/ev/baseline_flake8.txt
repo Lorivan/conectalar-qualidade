@@ -1,0 +1,15 @@
+app/__init__.py:38:5: E303 too many blank lines (2)
+app/__init__.py:74:5: E303 too many blank lines (2)
+app/auth/__init__.py:1:1: F401 '.routes.auth_bp' imported but unused
+app/auth/routes.py:37:43: W292 no newline at end of file
+app/dashboard/__init__.py:1:1: F401 '.routes.dashboard_bp' imported but unused
+app/ocorrencias/__init__.py:1:1: F401 '.routes.ocorrencias_bp' imported but unused
+app/templates/reset_user.py:7:32: W292 no newline at end of file
+app/usuarios/__init__.py:1:1: F401 '.routes.usuarios_bp' imported but unused
+app/utils/auth.py:26:49: W292 no newline at end of file
+criar_usuario.py:29:55: W292 no newline at end of file
+tests/conftest.py:13:1: E402 module level import not at top of file
+tests/conftest.py:15:1: E402 module level import not at top of file
+tests/conftest.py:16:1: E402 module level import not at top of file
+tests/conftest.py:17:1: E402 module level import not at top of file
+14

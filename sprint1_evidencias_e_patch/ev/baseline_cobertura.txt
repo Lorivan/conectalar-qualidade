@@ -1,0 +1,24 @@
+..................                                                       [100%]
+18 passed in 7.60s
+Name                                 Stmts   Miss  Cover   Missing
+------------------------------------------------------------------
+app/__init__.py                         54      7    87%   46-47, 54-55, 59, 67, 71
+app/auth/__init__.py                     1      0   100%
+app/auth/routes.py                      26      5    81%   18-20, 36-37
+app/dashboard/__init__.py                1      0   100%
+app/dashboard/routes.py                 30      1    97%   42
+app/models.py                           19      0   100%
+app/ocorrencias/__init__.py              1      0   100%
+app/ocorrencias/repository.py           13      1    92%   24
+app/ocorrencias/routes.py               36     14    61%   30-35, 41-54
+app/ocorrencias/service.py              29      4    86%   43, 49-51
+app/services/__init__.py                 0      0   100%
+app/services/auth_service.py            13      2    85%   7, 22
+app/services/validation_service.py      36      1    97%   54
+app/usuarios/__init__.py                 1      0   100%
+app/usuarios/routes.py                  40     13    68%   24-25, 40-49, 55-56
+app/utils/auth.py                       18      0   100%
+app/utils/csrf.py                       17      3    82%   12-13, 25
+app/utils/datetime_utils.py             11      1    91%   15
+------------------------------------------------------------------
+TOTAL                                  346     52    85%
