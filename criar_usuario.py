@@ -1,29 +1,47 @@
+"""Provisiona um usuário síndico sem senha padrão nem exclusão de dados."""
+
+from getpass import getpass
+
+from sqlalchemy.exc import SQLAlchemyError
+
 from app import app, db
 from app.models import Usuario
-import bcrypt
+from app.services.auth_service import gerar_hash_senha
 
-with app.app_context():
 
-    # Apaga usuário antigo (resolve seu erro de bcrypt)
-    Usuario.query.filter_by(email="admin@conectalar.com").delete()
-    db.session.commit()
+def main() -> int:
+    if app.config.get('IS_PRODUCTION'):
+        raise RuntimeError('Não execute este provisionador em produção.')
 
-    senha_plana = "123"
+    nome = input('Nome do síndico: ').strip()
+    email = input('E-mail do síndico: ').strip().lower()
+    senha = getpass('Senha (mínimo 12 caracteres): ')
+    confirmacao = getpass('Confirme a senha: ')
 
-    hash_senha = bcrypt.hashpw(
-        senha_plana.encode('utf-8'),
-        bcrypt.gensalt()
-    )
+    if len(nome) < 3 or '@' not in email:
+        raise ValueError('Nome ou e-mail inválido.')
+    if len(senha) < 12 or senha != confirmacao:
+        raise ValueError('A senha deve ter ao menos 12 caracteres e coincidir com a confirmação.')
 
-    novo_usuario = Usuario(
-        nome="Síndico Leonardo",
-        email="admin@conectalar.com",
-        senha=hash_senha.decode('utf-8'),
-        unidade="Administração",
-        tipo="sindico"
-    )
+    with app.app_context():
+        if Usuario.query.filter_by(email=email).first():
+            raise ValueError('Já existe usuário cadastrado com este e-mail.')
+        db.session.add(Usuario(
+            nome=nome,
+            email=email,
+            senha=gerar_hash_senha(senha),
+            unidade='Administração',
+            tipo='sindico',
+        ))
+        try:
+            db.session.commit()
+        except SQLAlchemyError:
+            db.session.rollback()
+            raise
 
-    db.session.add(novo_usuario)
-    db.session.commit()
+    print('Usuário síndico criado com sucesso.')
+    return 0
 
-    print("Usuário recriado com senha criptografada!")
+
+if __name__ == '__main__':
+    raise SystemExit(main())

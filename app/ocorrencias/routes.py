@@ -35,7 +35,7 @@ def nova_ocorrencia():
     return render_template('nova_ocorrencia.html')
 
 
-@ocorrencias_bp.route('/atualizar-status/<int:id>/<novo_status>')
+@ocorrencias_bp.route('/atualizar-status/<int:id>/<novo_status>', methods=['POST'])
 @sindico_obrigatorio
 def atualizar_status(id, novo_status):
     service = OcorrenciaService()
@@ -46,7 +46,9 @@ def atualizar_status(id, novo_status):
             novo_status=novo_status,
         )
         if status_atualizado:
-            flash('Status updated com sucesso.', 'success')
+            flash('Status atualizado com sucesso.', 'success')
+        else:
+            flash('Não foi possível atualizar: ocorrência inexistente ou status inválido.', 'warning')
     except OcorrenciaPersistenceError:
         current_app.logger.exception('Falha ao atualizar status da ocorrência %s.', id)
         flash('Não foi possível atualizar o status. Tente novamente.', 'danger')

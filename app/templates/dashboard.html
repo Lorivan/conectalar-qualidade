@@ -49,9 +49,11 @@
 
         <hr class="my-4" style="border-color:#afb4c2;">
 
-        <form method="GET" action="{{ url_for('dashboard.dashboard') }}" class="d-flex gap-2 mb-4" style="max-width:980px;">
-            <input type="text" name="q" value="{{ filtro_texto }}" class="form-control form-control-lg" placeholder="Buscar por título/descrição">
-            <select name="status" class="form-select form-select-lg">
+        <form method="GET" action="{{ url_for('dashboard.dashboard') }}" class="d-flex flex-wrap gap-2 mb-4" style="max-width:980px;">
+            <label class="visually-hidden" for="filtro-texto">Buscar por título ou descrição</label>
+            <input id="filtro-texto" type="text" name="q" value="{{ filtro_texto }}" class="form-control form-control-lg" placeholder="Buscar por título/descrição">
+            <label class="visually-hidden" for="filtro-status">Filtrar por status</label>
+            <select id="filtro-status" name="status" class="form-select form-select-lg">
                 <option value="" {% if not filtro_status %}selected{% endif %}>Todos</option>
                 <option value="Pendente" {% if filtro_status == 'Pendente' %}selected{% endif %}>Pendente</option>
                 <option value="Em Andamento" {% if filtro_status == 'Em Andamento' %}selected{% endif %}>Em Andamento</option>
@@ -129,13 +131,13 @@
                 <table class="table table-hover table-bordered align-middle mb-0">
                     <thead class="table-light">
                     <tr>
-                        <th>ID</th>
-                        <th>Data</th>
-                        <th>Título</th>
-                        <th>Status</th>
-                        <th>Autor</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Autor</th>
                         {% if session.get('usuario_tipo') == 'sindico' %}
-                            <th class="text-center">Ações (Administração)</th>
+                            <th scope="col" class="text-center">Ações (Administração)</th>
                         {% endif %}
                     </tr>
                     </thead>
@@ -158,13 +160,19 @@
                             {% if session.get('usuario_tipo') == 'sindico' %}
                                 <td class="text-center admin-action-cell">
                                     {% if ocorrencia.status == 'Pendente' %}
-                                        <a href="{{ url_for('ocorrencias.atualizar_status', id=ocorrencia.id, novo_status='Em Andamento') }}" class="admin-action-btn admin-action-progress" title="Mover para Em Andamento" aria-label="Mover para Em Andamento">
+                                        <form method="POST" action="{{ url_for('ocorrencias.atualizar_status', id=ocorrencia.id, novo_status='Em Andamento') }}">
+                                            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                                            <button type="submit" class="admin-action-btn admin-action-progress" title="Mover para Em Andamento" aria-label="Mover para Em Andamento">
                                             <i class="bi bi-pencil-square"></i> Em Andamento
-                                        </a>
+                                            </button>
+                                        </form>
                                     {% elif ocorrencia.status == 'Em Andamento' %}
-                                        <a href="{{ url_for('ocorrencias.atualizar_status', id=ocorrencia.id, novo_status='Resolvido') }}" class="admin-action-btn admin-action-resolve" title="Marcar como Resolvido" aria-label="Marcar como Resolvido">
+                                        <form method="POST" action="{{ url_for('ocorrencias.atualizar_status', id=ocorrencia.id, novo_status='Resolvido') }}">
+                                            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                                            <button type="submit" class="admin-action-btn admin-action-resolve" title="Marcar como Resolvido" aria-label="Marcar como Resolvido">
                                             <i class="bi bi-check2-circle"></i> Resolver
-                                        </a>
+                                            </button>
+                                        </form>
                                     {% else %}
                                         <span class="admin-action-btn admin-action-disabled" aria-disabled="true" title="Ocorrência já finalizada">
                                             <i class="bi bi-check2-all"></i> Finalizado
