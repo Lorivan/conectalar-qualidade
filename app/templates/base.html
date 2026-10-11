@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConectaLar - Gestão de Condomínio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 <style>
     :root {
         --conecta-bg: #f4f5f9;
@@ -44,6 +50,8 @@
         font-weight: 500;
         text-decoration: none;
         transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+        font: inherit;
+        cursor: pointer;
     }
 
     .topbar-logout:hover {
@@ -63,6 +71,20 @@
         border-right: 1px solid #1f2937;
         box-shadow: inset -8px 0 18px rgba(0, 0, 0, 0.28);
         padding: 22px 18px;
+    }
+
+    .admin-action-btn {
+        font: inherit;
+        cursor: pointer;
+    }
+
+    @media (max-width: 767.98px) {
+        .layout-shell { flex-direction: column; }
+        .conecta-sidebar { width: 100%; box-shadow: none; padding: 14px; }
+        .sidebar-group-title { font-size: 1.25rem; margin-top: 14px; padding-top: 12px; }
+        .main-panel { padding: 20px 14px; min-width: 0; }
+        .conecta-brand span { display: none; }
+        .conecta-topbar { height: auto; min-height: 72px; }
     }
 
     .sidebar-card {
@@ -427,12 +449,6 @@
         pointer-events: none;
     }
 </style>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ConectaLar - Gestão de Condomínio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
@@ -447,7 +463,10 @@
                 <span style="font-size:2.05rem; font-weight:400;"> - Plataforma para Gestão de Condomínio</span>
             </div>
         </a>
-        <a href="{{ url_for('auth.logout') }}" class="topbar-logout" aria-label="Sair da conta"><i class="bi bi-box-arrow-right"></i><span>Sair</span></a>
+        <form method="POST" action="{{ url_for('auth.logout') }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="topbar-logout" aria-label="Sair da conta"><i class="bi bi-box-arrow-right"></i><span>Sair</span></button>
+        </form>
     </header>
 
     {% block full_content %}{% endblock %}

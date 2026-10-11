@@ -1,2 +1,17 @@
-# created by virtualenv automatically
-venv/Lib
+# Python environments and generated files
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+coverage.xml
+.coverage
+
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+
+# Local editor state
+.idea/
