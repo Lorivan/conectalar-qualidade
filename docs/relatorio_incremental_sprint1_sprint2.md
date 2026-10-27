@@ -1,8 +1,8 @@
 # Relatório Incremental de Qualidade — Sprints 1 e 2
 
-**Projeto:** ConectaLar — Sistema de Gestão Condominial  
-**Data de atualização:** 27/10/2026  
-**Versão do relatório:** 1.0  
+**Projeto:** ConectaLar — Sistema de Gestão Condominial
+**Data de atualização:** 27/10/2026
+**Versão do relatório:** 1.0
 **Escopo:** execução da Sprint 1, tratamento documental da Sprint 2 e registro do estado verificável do código.
 
 > Este relatório distingue evidência observada, implementação presente no repositório e atividade que ainda depende de execução/validação. Não declara aprovação institucional nem aprovação final da Sprint 2. Nenhuma senha, token ou conteúdo de `.env` é reproduzido.
@@ -114,8 +114,8 @@ O quadro externo não está disponível neste repositório; a tabela registra o 
 
 ## 9. Repositório do Projeto
 
-**Repositório configurado:** `https://github.com/Lorivan/conectalar-qualidade` (remote `origin`, observado no Git local em 27/10/2026).  
-**Branch observada:** `codex/security-quality-sprint1`; `HEAD` em `b185c67` (`Hardening and quality improvements for Sprint 1`).  
+**Repositório configurado:** `https://github.com/Lorivan/conectalar-qualidade` (remote `origin`, observado no Git local em 27/10/2026).
+**Branch observada:** `codex/security-quality-sprint1`; `HEAD` em `b185c67` (`Hardening and quality improvements for Sprint 1`).
 **Evidências versionadas:** `sprint1_evidencias_e_patch/ev/`, incluindo `depois_reproducao_atualizada.txt`; código em `app/`, `tests/`, `migrations/`; este relatório em `docs/`.
 
 O commit `b185c67` reúne a implementação observada da Sprint 1. Os commits anteriores incluem correções de regressão, higiene do repositório e dependências, conforme `commits.txt`. Não se assume que o remoto está atualizado com este `HEAD`; a verificação de envio/push não foi feita. `.env` não deve ser incluído, copiado ou exibido; usar `.env.example` apenas como modelo, com valores não secretos.
@@ -154,7 +154,7 @@ O histórico disponível atribui os commits de Sprint 1 a Lorivan Lino Abreu, ma
 
 #### Atividades de qualidade previstas e realizadas nesta atualização
 
-**Realizadas nesta atualização:** revisão de código/commits, suíte atual (27 aprovados), reprodução D-01 a D-05 atualizada e consulta PostgreSQL somente de leitura, além da consolidação do backlog/cenários sem revelar senhas.  
+**Realizadas nesta atualização:** revisão de código/commits, suíte atual (27 aprovados), reprodução D-01 a D-05 atualizada e consulta PostgreSQL somente de leitura, além da consolidação do backlog/cenários sem revelar senhas.
 **A executar para concluir a Sprint 2:** aplicar/verificar migração e fluxos PostgreSQL em ambiente isolado, roteiro em navegador e confirmação da distribuição com o grupo. O controle de interface do navegador encerrou a tentativa por não conseguir determinar a URL atual com confiança.
 
 #### Testes, análises e resultados
@@ -188,8 +188,8 @@ As correções automatizadas disponíveis sustentam a validação técnica indiv
 
 ### Retrospectiva baseada no trabalho evidenciado
 
-**Funcionou:** a reprodução dos defeitos priorizou correções objetivas; commits separados permitem rastrear parte das alterações; o pacote pós histórico registra 31 testes contra 18 na linha de base, com lint limpo e auditoria de dependências sem vulnerabilidade conhecida. A execução atual coletou 27 e requer conciliação.  
-**A melhorar:** manter script de reprodução sincronizado com mensagens e rate limiting; registrar responsável e evidência diretamente no quadro; preservar informação de credencial sem pressupor que removê-la do HEAD elimina exposição histórica.  
+**Funcionou:** a reprodução dos defeitos priorizou correções objetivas; commits separados permitem rastrear parte das alterações; o pacote pós histórico registra 31 testes contra 18 na linha de base, com lint limpo e auditoria de dependências sem vulnerabilidade conhecida. A execução atual coletou 27 e requer conciliação.
+**A melhorar:** manter script de reprodução sincronizado com mensagens e rate limiting; registrar responsável e evidência diretamente no quadro; preservar informação de credencial sem pressupor que removê-la do HEAD elimina exposição histórica.
 **Aprendizado:** saídas automatizadas dependem de um critério de observação atualizado; quando houver conflito entre um script e um teste específico, é preciso investigar a asserção, não escolher silenciosamente um resultado.
 
 ### Próximos passos
