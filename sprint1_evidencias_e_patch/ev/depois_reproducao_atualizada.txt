@@ -1,0 +1,5 @@
+D-01 GET sem CSRF -> HTTP 405 | status no banco: Pendente
+D-02 login com e-mail em caixa diferente -> HTTP 302 (esperado 302)
+D-03 POST status inválido -> HTTP 200 | feedback exibido: True | status preservado: True
+D-04 SESSION_COOKIE_SECURE = False | SAMESITE = Lax | HTTPONLY = True
+D-05 seis tentativas no mesmo IP -> códigos: [200, 200, 200, 200, 200, 429] | sexta limitada (429): True

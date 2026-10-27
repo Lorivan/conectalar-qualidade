@@ -201,6 +201,14 @@ Documentos:
 - [`docs/sprint_04_plano_execucao.md`](docs/sprint_04_plano_execucao.md)
 - [`docs/sprint_04_execucao_realizada.md`](docs/sprint_04_execucao_realizada.md)
 
+## 📋 Relatório Incremental — Sprints 1 e 2
+
+O relatório incremental da avaliação de qualidade reúne o controle de versões,
+backlog, cenários de login/cadastro, evidências da Sprint 1 e o estado de
+planejamento/validação da Sprint 2:
+
+- [`docs/relatorio_incremental_sprint1_sprint2.md`](docs/relatorio_incremental_sprint1_sprint2.md)
+
 ---
 
 ## 🔒 Variáveis de ambiente para produção
