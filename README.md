@@ -207,7 +207,7 @@ O relatório incremental da avaliação de qualidade reúne o controle de versõ
 backlog, cenários de login/cadastro, evidências da Sprint 1 e o estado de
 planejamento/validação da Sprint 2:
 
-- [`docs/relatorio_incremental_sprint1_sprint2.md`](docs/relatorio_incremental_sprint1_sprint2.md)
+- [`docs/relatorio_incremental_sprint1_sprint3.md`](docs/relatorio_incremental_sprint1_sprint3.md)
 
 ---
 

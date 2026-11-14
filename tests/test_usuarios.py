@@ -49,6 +49,27 @@ def test_cadastro_usuario_invalido_nao_persiste(client, app, sindico):
         assert Usuario.query.filter_by(email='email-invalido').first() is None
 
 
+def test_cadastro_email_duplicado_nao_cria_outro_usuario(client, app, sindico):
+    login(client)
+
+    response = client.post(
+        '/cadastro',
+        data={
+            'nome': 'Síndico Duplicado',
+            'email': 'sindico@conectalar.com',
+            'senha': 'senha-segura',
+            'unidade': 'Administração',
+            'tipo': 'sindico',
+            '_csrf_token': csrf_token(client),
+        },
+    )
+
+    assert response.status_code == 400
+    assert 'Já existe um usuário cadastrado com este e-mail.'.encode() in response.data
+    with app.app_context():
+        assert Usuario.query.filter_by(email='sindico@conectalar.com').count() == 1
+
+
 def test_lista_usuarios_pagina_resultados(client, app, sindico):
     login(client)
     db.session.add_all([

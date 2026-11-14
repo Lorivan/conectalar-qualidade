@@ -23,6 +23,45 @@ def test_nova_ocorrencia_valida_persiste_no_banco(client, app, sindico):
         assert ocorrencia.autor.email == 'sindico@conectalar.com'
 
 
+def test_nova_ocorrencia_criada_fica_disponivel_na_consulta_dashboard(client, app, sindico):
+    login(client)
+    response = client.post(
+        '/nova-ocorrencia',
+        data={
+            'titulo': 'Iluminação da entrada',
+            'descricao': 'A iluminação da entrada do bloco está apagada.',
+            '_csrf_token': csrf_token(client),
+        },
+    )
+    assert response.status_code == 302
+
+    consulta = client.get('/dashboard')
+
+    assert consulta.status_code == 200
+    assert 'Iluminação da entrada'.encode() in consulta.data
+    with app.app_context():
+        ocorrencia = Ocorrencia.query.filter_by(titulo='Iluminação da entrada').first()
+        assert ocorrencia is not None
+        assert ocorrencia.autor.email == 'sindico@conectalar.com'
+
+
+def test_criacao_de_ocorrencia_exige_autenticacao(client, app):
+    response = client.post(
+        '/nova-ocorrencia',
+        data={
+            'titulo': 'Portão da garagem',
+            'descricao': 'O portão da garagem não está fechando.',
+            '_csrf_token': csrf_token(client),
+        },
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 302
+    assert response.headers['Location'].endswith('/')
+    with app.app_context():
+        assert Ocorrencia.query.count() == 0
+
+
 def test_morador_visualiza_atalho_para_nova_ocorrencia_no_dashboard(client, morador):
     login(client, email='morador@conectalar.com')
 
