@@ -1,11 +1,9 @@
 # app/__init__.py
 from flask import Flask, jsonify, render_template
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-
-try:
-    from flask_migrate import Migrate
-except ModuleNotFoundError:  # pragma: no cover
-    Migrate = None
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -13,7 +11,8 @@ from app.utils.csrf import generate_csrf_token, validate_csrf_for_request
 from config import Config
 
 db = SQLAlchemy()
-migrate = Migrate() if Migrate else None
+migrate = Migrate()
+limiter = Limiter(key_func=get_remote_address, default_limits=[])
 
 
 def create_app():
@@ -22,8 +21,8 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
-    if migrate:
-        migrate.init_app(app, db)
+    migrate.init_app(app, db)
+    limiter.init_app(app)
     from app.auth.routes import auth_bp
     from app.dashboard.routes import dashboard_bp
     from app.ocorrencias.routes import ocorrencias_bp
@@ -65,6 +64,14 @@ def create_app():
     @app.errorhandler(404)
     def not_found(_error):
         return render_template('error.html', code=404, message='Página não encontrada.'), 404
+
+    @app.errorhandler(429)
+    def too_many_requests(_error):
+        return render_template(
+            'error.html',
+            code=429,
+            message='Muitas tentativas. Aguarde alguns minutos e tente novamente.',
+        ), 429
 
     @app.errorhandler(500)
     def internal_error(_error):

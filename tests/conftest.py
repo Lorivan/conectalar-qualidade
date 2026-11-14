@@ -20,7 +20,7 @@ from app.services.auth_service import gerar_hash_senha
 @pytest.fixture()
 def app():
     test_app = create_app()
-    test_app.config.update(TESTING=True)
+    test_app.config.update(TESTING=True, RATELIMIT_ENABLED=False)
 
     with test_app.app_context():
         db.drop_all()

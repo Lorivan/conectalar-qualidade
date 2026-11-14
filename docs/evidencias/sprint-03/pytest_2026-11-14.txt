@@ -1,0 +1,43 @@
+Execução pytest completa - Sprint 3
+Início: 2026-11-14 19:01:05 -03:00
+Revisão-base: 4b407c7e1a3c30a0143a1914318d072d3c67d1fd
+Working tree inclui mudanças Sprint 3 em tests/test_ocorrencias.py e tests/test_usuarios.py
+Ambiente: Windows; Python .venv; Flask test client; SQLite em memória (tests/conftest.py)
+Comando: .venv\\Scripts\\python.exe -m pytest -vv --no-header -p no:cacheprovider
+
+============================= test session starts =============================
+collecting ... collected 30 items
+
+tests/test_app.py::test_app_factory_responde_healthcheck PASSED          [  3%]
+tests/test_app.py::test_banco_em_teste_executa_consulta PASSED           [  6%]
+tests/test_app.py::test_cookie_de_sessao_tem_atributos_seguros PASSED    [ 10%]
+tests/test_auth.py::test_login_valido_redireciona_para_dashboard PASSED  [ 13%]
+tests/test_auth.py::test_login_normaliza_email PASSED                    [ 16%]
+tests/test_auth.py::test_login_invalido_mostra_mensagem PASSED           [ 20%]
+tests/test_auth.py::test_dashboard_sem_sessao_redireciona_para_login PASSED [ 23%]
+tests/test_auth.py::test_login_limita_tentativas_por_ip PASSED           [ 26%]
+tests/test_auth.py::test_logout_requer_post_com_csrf PASSED              [ 30%]
+tests/test_dashboard.py::test_dashboard_filtra_por_texto PASSED          [ 33%]
+tests/test_dashboard.py::test_dashboard_paginacao PASSED                 [ 36%]
+tests/test_ocorrencias.py::test_nova_ocorrencia_valida_persiste_no_banco PASSED [ 40%]
+tests/test_ocorrencias.py::test_nova_ocorrencia_criada_fica_disponivel_na_consulta_dashboard PASSED [ 43%]
+tests/test_ocorrencias.py::test_criacao_de_ocorrencia_exige_autenticacao PASSED [ 46%]
+tests/test_ocorrencias.py::test_morador_visualiza_atalho_para_nova_ocorrencia_no_dashboard PASSED [ 50%]
+tests/test_ocorrencias.py::test_morador_registra_ocorrencia PASSED       [ 53%]
+tests/test_ocorrencias.py::test_nova_ocorrencia_invalida_nao_persiste PASSED [ 56%]
+tests/test_ocorrencias.py::test_atualizar_status_exige_sindico PASSED    [ 60%]
+tests/test_ocorrencias.py::test_atualizar_status_rejeita_get PASSED      [ 63%]
+tests/test_ocorrencias.py::test_atualizar_status_requer_csrf PASSED      [ 66%]
+tests/test_ocorrencias.py::test_atualizar_status_por_sindico_persiste PASSED [ 70%]
+tests/test_ocorrencias.py::test_atualizar_status_invalido_informa_usuario PASSED [ 73%]
+tests/test_ocorrencias_service.py::test_service_registra_ocorrencia PASSED [ 76%]
+tests/test_ocorrencias_service.py::test_service_atualiza_status PASSED   [ 80%]
+tests/test_ocorrencias_service.py::test_service_ignora_status_invalido PASSED [ 83%]
+tests/test_ocorrencias_service.py::test_service_desfaz_transacao_quando_persistencia_falha PASSED [ 86%]
+tests/test_usuarios.py::test_cadastro_usuario_valido_persiste_no_banco PASSED [ 90%]
+tests/test_usuarios.py::test_cadastro_usuario_invalido_nao_persiste PASSED [ 93%]
+tests/test_usuarios.py::test_cadastro_email_duplicado_nao_cria_outro_usuario PASSED [ 96%]
+tests/test_usuarios.py::test_lista_usuarios_pagina_resultados PASSED     [100%]
+
+======================== 30 passed in 90.31s (0:01:30) ========================
+Exit code: 0

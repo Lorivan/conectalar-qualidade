@@ -23,6 +23,45 @@ def test_nova_ocorrencia_valida_persiste_no_banco(client, app, sindico):
         assert ocorrencia.autor.email == 'sindico@conectalar.com'
 
 
+def test_nova_ocorrencia_criada_fica_disponivel_na_consulta_dashboard(client, app, sindico):
+    login(client)
+    response = client.post(
+        '/nova-ocorrencia',
+        data={
+            'titulo': 'Iluminação da entrada',
+            'descricao': 'A iluminação da entrada do bloco está apagada.',
+            '_csrf_token': csrf_token(client),
+        },
+    )
+    assert response.status_code == 302
+
+    consulta = client.get('/dashboard')
+
+    assert consulta.status_code == 200
+    assert 'Iluminação da entrada'.encode() in consulta.data
+    with app.app_context():
+        ocorrencia = Ocorrencia.query.filter_by(titulo='Iluminação da entrada').first()
+        assert ocorrencia is not None
+        assert ocorrencia.autor.email == 'sindico@conectalar.com'
+
+
+def test_criacao_de_ocorrencia_exige_autenticacao(client, app):
+    response = client.post(
+        '/nova-ocorrencia',
+        data={
+            'titulo': 'Portão da garagem',
+            'descricao': 'O portão da garagem não está fechando.',
+            '_csrf_token': csrf_token(client),
+        },
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 302
+    assert response.headers['Location'].endswith('/')
+    with app.app_context():
+        assert Ocorrencia.query.count() == 0
+
+
 def test_morador_visualiza_atalho_para_nova_ocorrencia_no_dashboard(client, morador):
     login(client, email='morador@conectalar.com')
 
@@ -78,6 +117,63 @@ def test_atualizar_status_exige_sindico(client, app, morador):
         sess['usuario_nome'] = morador.nome
         sess['usuario_tipo'] = morador.tipo
 
-    response = client.get('/atualizar-status/1/Resolvido')
+    response = client.post(
+        '/atualizar-status/1/Resolvido',
+        data={'_csrf_token': csrf_token(client)},
+    )
 
     assert response.status_code == 403
+
+
+def test_atualizar_status_rejeita_get(client, app, sindico):
+    login(client)
+
+    response = client.get('/atualizar-status/1/Resolvido')
+
+    assert response.status_code == 405
+
+
+def test_atualizar_status_requer_csrf(client, app, sindico):
+    login(client)
+    ocorrencia = Ocorrencia(titulo='Portão', descricao='Descrição suficiente para registro.', usuario_id=sindico.id)
+    from app import db
+    db.session.add(ocorrencia)
+    db.session.commit()
+
+    response = client.post(f'/atualizar-status/{ocorrencia.id}/Resolvido')
+
+    assert response.status_code == 400
+    assert db.session.get(Ocorrencia, ocorrencia.id).status == 'Pendente'
+
+
+def test_atualizar_status_por_sindico_persiste(client, app, sindico):
+    login(client)
+    ocorrencia = Ocorrencia(titulo='Portão', descricao='Descrição suficiente para registro.', usuario_id=sindico.id)
+    from app import db
+    db.session.add(ocorrencia)
+    db.session.commit()
+
+    response = client.post(
+        f'/atualizar-status/{ocorrencia.id}/Resolvido',
+        data={'_csrf_token': csrf_token(client)},
+    )
+
+    assert response.status_code == 302
+    assert db.session.get(Ocorrencia, ocorrencia.id).status == 'Resolvido'
+
+
+def test_atualizar_status_invalido_informa_usuario(client, app, sindico):
+    login(client)
+    ocorrencia = Ocorrencia(titulo='Portão', descricao='Descrição suficiente para registro.', usuario_id=sindico.id)
+    from app import db
+    db.session.add(ocorrencia)
+    db.session.commit()
+
+    response = client.post(
+        f'/atualizar-status/{ocorrencia.id}/Cancelado',
+        data={'_csrf_token': csrf_token(client)},
+    )
+
+    assert response.status_code == 302
+    assert 'status inválido'.encode() in client.get('/dashboard').data
+    assert db.session.get(Ocorrencia, ocorrencia.id).status == 'Pendente'

@@ -52,5 +52,10 @@ def cadastro():
 @usuarios_bp.route('/usuarios')
 @sindico_obrigatorio
 def lista_usuarios():
-    todos_usuarios = Usuario.query.order_by(Usuario.nome).all()
-    return render_template('usuarios.html', usuarios=todos_usuarios)
+    pagina = request.args.get('pagina', default=1, type=int)
+    paginacao = Usuario.query.order_by(Usuario.nome).paginate(
+        page=pagina,
+        per_page=20,
+        error_out=False,
+    )
+    return render_template('usuarios.html', paginacao=paginacao)

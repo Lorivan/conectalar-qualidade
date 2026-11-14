@@ -1,18 +1,12 @@
 # Migrações (Flask-Migrate / Alembic)
 
-## Inicializar
+A aplicação inicializa o Flask-Migrate em `app/__init__.py`. A revisão `20261011_0001` serve de baseline: cria as tabelas ausentes e não recria tabelas existentes. Para bancos já existentes, faça backup e valide o schema antes de registrar a revisão.
+
+## Fluxo de desenvolvimento
+
 ```bash
-flask db init
+flask --app run db migrate -m "describe schema change"
+flask --app run db upgrade
 ```
 
-## Criar migração inicial
-```bash
-flask db migrate -m "initial schema"
-```
-
-## Aplicar migrações
-```bash
-flask db upgrade
-```
-
-> A aplicação já está preparada com `Flask-Migrate` via `migrate.init_app(app, db)`.
+Não use `db.create_all()` como substituto de migrações em produção.
